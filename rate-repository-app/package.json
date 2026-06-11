@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "expo lint"
   },
   "dependencies": {
     "@expo/metro-runtime": "~55.0.11",
@@ -16,5 +17,9 @@
     "react-dom": "19.2.0",
     "react-native": "0.83.6",
     "react-native-web": "^0.21.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~55.0.1"
   }
 }
