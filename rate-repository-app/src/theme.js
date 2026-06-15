@@ -18,7 +18,8 @@ const theme = {
     bold: '700',
   },
   padding:{
-    BodyTextPadding: 20
+    BodyTextPaddingX: 20,
+    BodyTextPaddingY: 10
   },
   rowDisplay:{
     flexDisplay: 'flex',

@@ -1,5 +1,6 @@
 import { Pressable, Text as TabText, StyleSheet } from 'react-native';
 import theme from '../theme';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   font: {
@@ -8,15 +9,20 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeights.bold,
   },
   padding: {
-    padding: theme.padding.BodyTextPadding,
+    paddingHorizontal: 20,
+    paddingVertical: 10
   },
 });
 
-const AppBarTab = ({ children, ...props }) => {
+const AppBarTab = ({ to, label }) => {
   return (
-    <Pressable {...props}>
-      <TabText style={[styles.font, styles.padding]}>{children}</TabText>
-    </Pressable>
+    <Link
+      to={to}
+      component={Pressable}
+      style={[styles.padding]}
+    >
+      <TabText style={[styles.font]}>{label}</TabText>
+    </Link>
   );
 };
 export default AppBarTab;
