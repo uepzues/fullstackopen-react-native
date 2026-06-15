@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.appBackground,
-    marginBottom: 15,
     display: theme.rowDisplay.flexDisplay,
     flexDirection: theme.rowDisplay.flexRow,
     justifyContent: theme.rowDisplay.flexStart,

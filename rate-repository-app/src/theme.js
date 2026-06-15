@@ -7,7 +7,7 @@ const theme = {
     neutral: '#fff'
   },
   fontSizes: {
-    body: 14,
+    body: 16,
     subheading: 18,
   },
   fonts: {
@@ -24,7 +24,14 @@ const theme = {
     flexDisplay: 'flex',
     flexRow: 'row',
     flexStart: 'flex-start',
+  },
+  columnDisplay:{
+    display: 'flex',
+    flexColumn: 'column',
+    flexStart: 'flex-start',
+    columnReverse: 'column-reverse'
   }
+
 };
 
 export default theme;

@@ -5,6 +5,7 @@ import AppBar from './AppBar';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#e1e4e8'
   },
 });
 
