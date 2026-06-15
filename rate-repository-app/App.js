@@ -1,4 +1,4 @@
-import Main from './.expo/src/components/Main';
+import Main from "./src/components/Main";
 
 export default function App() {
   return <Main />;
