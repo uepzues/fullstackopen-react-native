@@ -1,25 +1,117 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
+import theme from '../theme';
+import ItemText from './Text';
 
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
   },
+  textColor: {
+    color: 'white',
+  },
+  avatarSize: {
+    width: 60,
+    height: 60,
+    borderRadius: 5,
+  },
+  displayRow: {
+    display: theme.rowDisplay.flexDisplay,
+    flexDirection: theme.rowDisplay.flexRow,
+  },
+  paddingX: {
+    paddingInline: 20,
+    flexShrink: 1,
+  },
+  content: {
+    justifyContent: 'space-around',
+  },
+  language: {
+    backgroundColor: theme.colors.primary,
+    borderRadius: 5,
+    paddingBlock: 5,
+    paddingInline: 10,
+    alignSelf: 'flex-start',
+    marginTop: 10,
+    marginLeft: 80,
+  },
+  lineHeight: {
+    lineHeight: 20,
+  },
+  container: {
+    // marginInline: 20,
+    // marginTop: 10,
+    backgroundColor: 'white'
+  },
+  paddingY:{
+    paddingBlock: 10
+  }
 });
 
-const CustomText = ({ children }) => {
-  return <Text style={styles.text}>{children}</Text>;
+const RepositoryItem = ({ style, repo }) => {
+  return (
+    <View style={[styles.container, styles.paddingX, styles.paddingY]}>
+      <View style={[{ marginBottom: 10 }]}>
+        <View style={styles.displayRow}>
+          <View>
+            <Image
+              style={styles.avatarSize}
+              source={{ uri: repo.ownerAvatarUrl }}
+            ></Image>
+          </View>
+          <View style={styles.paddingX}>
+            <ItemText
+              fontWeight="bold"
+              style={styles.text}
+            >
+              {repo.fullName}
+            </ItemText>
+            <ItemText style={[styles.lineHeight, { marginTop: 5 }]}>
+              {repo.description}
+            </ItemText>
+          </View>
+        </View>
+        <View style={[styles.language]}>
+          <ItemText style={styles.textColor}>{repo.language}</ItemText>
+        </View>
+      </View>
+
+      <View style={[styles.displayRow, styles.content]}>
+        <ItemCount
+          label="Forks"
+          count={repo.forksCount}
+        />
+        <ItemCount
+          label="Stars"
+          count={repo.stargazersCount}
+        />
+        <ItemCount
+          label="Rating"
+          count={repo.ratingAverage}
+        />
+        <ItemCount
+          label="Review"
+          count={repo.reviewCount}
+        />
+      </View>
+    </View>
+  );
 };
 
-const RepositoryItem = ({ repo }) => {
+const ItemCount = ({ label, count, style }) => {
+  const countInK = (item) => {
+    let count = '0';
+
+    if (item && item >= 1000) {
+      count = (item / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+      return count;
+    }
+    return item;
+  };
+
   return (
-    <View>
-      <CustomText>Full Name: {repo.fullName}</CustomText>
-      <CustomText>Description: {repo.description}</CustomText>
-      <CustomText>Language: {repo.language}</CustomText>
-      <CustomText>Forks: {repo.forksCount}</CustomText>
-      <CustomText>Stars: {repo.stargazersCount}</CustomText>
-      <CustomText>Rating: {repo.ratingAverage}</CustomText>
-      <CustomText>Review: {repo.reviewCount}</CustomText>
+    <View alignItems="center">
+      <ItemText fontWeight="bold">{countInK(count)}</ItemText>
+      <ItemText>{label}</ItemText>
     </View>
   );
 };
