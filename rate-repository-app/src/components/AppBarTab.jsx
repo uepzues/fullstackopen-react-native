@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeights.bold,
   },
   padding: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingVertical: 10
   },
 });

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     flexDirection: theme.rowDisplay.flexRow,
   },
   paddingX: {
-    paddingInline: 20,
+    paddingInline: theme.padding.PaddingX,
     flexShrink: 1,
   },
   content: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     borderRadius: 5,
     paddingBlock: 5,
-    paddingInline: 10,
+    paddingInline: theme.padding.PaddingX,
     alignSelf: 'flex-start',
     marginTop: 10,
     marginLeft: 80,
@@ -38,12 +38,10 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   container: {
-    // marginInline: 20,
-    // marginTop: 10,
     backgroundColor: 'white'
   },
   paddingY:{
-    paddingBlock: 10
+    paddingVertical: theme.padding.PaddingY
   }
 });
 
