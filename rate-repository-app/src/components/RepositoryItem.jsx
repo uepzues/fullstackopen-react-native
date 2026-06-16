@@ -5,6 +5,7 @@ import ItemText from './Text';
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
+    fontFamily: theme.fonts.main
   },
   textColor: {
     color: 'white',

@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.subheading,
     color: theme.colors.neutral,
     fontWeight: theme.fontWeights.bold,
+    fontFamily: theme.fonts.main
   },
   padding: {
     paddingHorizontal: 10,

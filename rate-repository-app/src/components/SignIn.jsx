@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingHorizontal: 15,
     color: theme.colors.textSecondary,
+    fontFamily: theme.fonts.font,
   },
   button: {
     backgroundColor: theme.colors.primary,
@@ -30,16 +31,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'green',
   },
   text: {
+    fontFamily: theme.fonts.main,
     fontSize: 18,
     fontWeight: 'bold',
     color: 'white',
   },
   inputError: {
-    borderColor: '#d73a4a99',
+    fontFamily: theme.fonts.main,
+    color: '#d73a4a',
+  },
+  font: {
+    fontFamily: theme.fonts.main,
   },
 });
 
-const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).*$/;
+const passwordRules =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).*$/;
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -49,8 +56,11 @@ const validationSchema = yup.object().shape({
     .required('Username is required'),
   password: yup
     .string()
-    .min(6, 'Minimum password length is 6.').matches(passwordRules, {
-      message: 'Password must contain at least one uppercase, one lowercase, one number, and one special character' })
+    .min(6, 'Minimum password length is 6.')
+    .matches(passwordRules, {
+      message:
+        'Password must contain at least one uppercase, one lowercase, one number, and one special character',
+    })
     .required('Password is required'),
 });
 
@@ -71,7 +81,7 @@ const SignIn = () => {
       }) => (
         <View style={styles.container}>
           {touched.username && errors.username && (
-            <Text style={{ color: '#d73a4a', fontSize: 14 }}>
+            <Text style={[styles.inputError, { fontSize: 14 }]}>
               {errors.username}
             </Text>
           )}
@@ -79,21 +89,27 @@ const SignIn = () => {
             placeholder="Username"
             style={[
               styles.input,
-              touched.username && errors.username ? styles.inputError : null,
+              styles.font,
+              touched.username && errors.username
+                ? { borderColor: '#d73a4a99' }
+                : null,
             ]}
             onChangeText={handleChange('username')}
             value={values.username}
             onBlur={handleBlur('username')}
           />
           {touched.password && errors.password && (
-            <Text style={{ color: '#d73a4a', fontSize: 14 }}>
+            <Text style={[styles.inputError, { fontSize: 14 }]}>
               {errors.password}
             </Text>
           )}
           <TextInput
             style={[
               styles.input,
-              touched.password && errors.password ? styles.inputError : null,
+              styles.font,
+              touched.password && errors.password
+                ? { borderColor: '#d73a4a99' }
+                : null,
             ]}
             placeholder="Password"
             onChangeText={handleChange('password')}
