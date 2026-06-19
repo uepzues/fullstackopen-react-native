@@ -1,11 +1,11 @@
 import { View, StyleSheet, Image } from 'react-native';
-import theme from '../theme';
-import ItemText from './Text';
+import theme from '../../theme';
+import ItemText from '../AppBar/Text';
 
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
-    fontFamily: theme.fonts.main
+    fontFamily: theme.fonts.main,
   },
   textColor: {
     color: 'white',
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   container: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
-  paddingY:{
-    paddingVertical: theme.padding.PaddingY
-  }
+  paddingY: {
+    paddingVertical: theme.padding.PaddingY,
+  },
 });
 
 const RepositoryItem = ({ style, repo }) => {

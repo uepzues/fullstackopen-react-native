@@ -1,5 +1,5 @@
 import { Pressable, Text as TabText, StyleSheet } from 'react-native';
-import theme from '../theme';
+import theme from '../../theme';
 import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 import { Text as NativeText, StyleSheet } from 'react-native';
 
-import theme from '../theme';
+import theme from '../../theme';
 
 const styles = StyleSheet.create({
   text: {
@@ -22,11 +22,19 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeights.bold,
   },
   textCenter: {
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });
 
-const Text = ({ color, fontSize, fontWeight, style, justifyContent, paddingInline, ...props }) => {
+const Text = ({
+  color,
+  fontSize,
+  fontWeight,
+  style,
+  justifyContent,
+  paddingInline,
+  ...props
+}) => {
   const textStyle = [
     styles.text,
     color === 'textSecondary' && styles.colorTextSecondary,
