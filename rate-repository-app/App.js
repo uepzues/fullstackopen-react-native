@@ -4,10 +4,10 @@ import { StatusBar } from 'expo-status-bar';
 import { NativeRouter } from 'react-router-native';
 import createApolloClient from './src/utils/apolloClient';
 
-
 const apolloClient = createApolloClient();
 
 export default function App() {
+  console.log('env check:', process.env.EXPO_PUBLIC_ENV);
   return (
     <>
       <StatusBar style="light" />
