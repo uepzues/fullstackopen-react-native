@@ -3,6 +3,7 @@ import Text from './Text';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import theme from '../../theme';
+import useSignIn from '../../hooks/useSignin';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,8 +46,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const passwordRules =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).*$/;
+// const passwordRules =
+//   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).*$/;
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -57,18 +58,31 @@ const validationSchema = yup.object().shape({
   password: yup
     .string()
     .min(6, 'Minimum password length is 6.')
-    .matches(passwordRules, {
-      message:
-        'Password must contain at least one uppercase, one lowercase, one number, and one special character',
-    })
+    // .matches(passwordRules, {
+    //   message:
+    //     'Password must contain at least one uppercase, one lowercase, one number, and one special character',
+    // })
     .required('Password is required'),
 });
 
 const SignIn = () => {
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log('RESULT', data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Formik
       initialValues={{ username: '', password: '' }}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
       {({
