@@ -3,8 +3,11 @@ import Main from './src/components/Main';
 import { StatusBar } from 'expo-status-bar';
 import { NativeRouter } from 'react-router-native';
 import createApolloClient from './src/utils/apolloClient';
+import AuthStorage from './src/utils/authStorage';
+import AuthStorageContext from './src/contexts/AuthStorageContext';
 
-const apolloClient = createApolloClient();
+const authStorage = new AuthStorage();
+const apolloClient = createApolloClient(authStorage);
 
 export default function App() {
   console.log('env check:', process.env.EXPO_PUBLIC_ENV);
@@ -13,7 +16,9 @@ export default function App() {
       <StatusBar style="light" />
       <NativeRouter>
         <ApolloProvider client={apolloClient}>
-          <Main />
+          <AuthStorageContext.Provider value={authStorage}>
+            <Main />
+          </AuthStorageContext.Provider>
         </ApolloProvider>
       </NativeRouter>
     </>
