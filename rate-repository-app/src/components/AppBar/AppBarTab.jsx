@@ -15,7 +15,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({ to, label }) => {
+const AppBarTab = ({ to, label, onPress }) => {
+  if (onPress) {
+    return (
+      <Pressable
+        onPress={onPress}
+        style={[styles.padding]}
+      >
+        <TabText style={[styles.font]}>{label}</TabText>
+      </Pressable>
+    );
+  }
+
   return (
     <Link
       to={to}
