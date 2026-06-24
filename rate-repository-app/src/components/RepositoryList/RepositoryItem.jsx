@@ -1,6 +1,6 @@
 import { View, StyleSheet, Image } from 'react-native';
 import theme from '../../theme';
-import ItemText from '../AppBar/Text';
+import ItemText from '../Text';
 
 const styles = StyleSheet.create({
   text: {
@@ -48,7 +48,10 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = ({ style, repo }) => {
   return (
-    <View style={[styles.container, styles.paddingX, styles.paddingY]}>
+    <View
+      style={[styles.container, styles.paddingX, styles.paddingY]}
+      testID="repositoryItem"
+    >
       <View style={[{ marginBottom: 10 }]}>
         <View style={styles.displayRow}>
           <View>
@@ -96,7 +99,7 @@ const RepositoryItem = ({ style, repo }) => {
   );
 };
 
-const ItemCount = ({ label, count, style }) => {
+const ItemCount = ({ label, count }) => {
   const countInK = (item) => {
     let count = '0';
 
