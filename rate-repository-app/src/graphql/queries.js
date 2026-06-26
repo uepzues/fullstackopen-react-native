@@ -16,10 +16,21 @@ export const GET_REPOSITORIES = gql`
 `;
 
 export const GET_USER = gql`
-  query getCurrentUser{
-    me{
+  query getCurrentUser {
+    me {
       id
       username
     }
   }
-`
+`;
+
+export const REPOSITORY = gql`
+  query getCurrentRepository($id: ID!) {
+    repository(id: $id) {
+      ...RepositoryDetails
+      url
+    }
+  }
+
+  ${REPOSITORY_DETAILS}
+`;

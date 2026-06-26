@@ -29,9 +29,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginVertical: 10,
   },
-  pressed: {
-    backgroundColor: 'green',
-  },
   text: {
     fontFamily: theme.fonts.main,
     fontSize: 18,
