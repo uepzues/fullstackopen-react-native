@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image} from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import theme from '../../theme';
 import ItemText from '../Text';
 import { Link } from 'react-router-native';
@@ -83,7 +83,9 @@ const RepositoryItem = ({ style, repo }) => {
             </View>
           </View>
           <View style={[styles.language]}>
-            <ItemText style={styles.textColor}>{repo.language}</ItemText>
+            <ItemText style={[styles.textColor, { paddingBottom: 3 }]}>
+              {repo.language}
+            </ItemText>
           </View>
         </View>
 

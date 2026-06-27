@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryList = () => {
-  const { repositories, loading, error, refetch } = useRepositories();
+  const { repositories, loading, error, /* refetch */ } = useRepositories();
 
   if (loading)
     return (
@@ -31,7 +31,7 @@ const RepositoryList = () => {
       <RepositoriesListContainer
         repositories={repositories}
         loading={loading}
-        refetch={refetch}
+        // refetch={refetch}
       />
     </>
   );
