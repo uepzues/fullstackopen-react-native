@@ -38,9 +38,13 @@ const styles = StyleSheet.create({
   inputError: {
     fontFamily: theme.fonts.main,
     color: '#d73a4a',
+    fontSize: 14,
   },
   font: {
     fontFamily: theme.fonts.main,
+  },
+  border: {
+    borderColor: '#d73a4a99',
   },
 });
 
@@ -78,27 +82,20 @@ export const SignInContainer = ({ onSubmit }) => {
         errors,
         values,
       }) => (
-        <View style={styles.container}>
-          {touched.username && errors.username && (
-            <Text style={[styles.inputError, { fontSize: 14 }]}>
-              {errors.username}
-            </Text>
-          )}
+        <View style={styles.container}>       
           <TextInput
             placeholder="Username"
             style={[
               styles.input,
               styles.font,
-              touched.username && errors.username
-                ? { borderColor: '#d73a4a99' }
-                : null,
+              touched.username && errors.username ? styles.border : null,
             ]}
             onChangeText={handleChange('username')}
             value={values.username}
             onBlur={handleBlur('username')}
           />
           {touched.password && errors.password && (
-            <Text style={[styles.inputError, { fontSize: 14 }]}>
+            <Text style={[styles.inputError]}>
               {errors.password}
             </Text>
           )}
@@ -106,9 +103,7 @@ export const SignInContainer = ({ onSubmit }) => {
             style={[
               styles.input,
               styles.font,
-              touched.password && errors.password
-                ? { borderColor: '#d73a4a99' }
-                : null,
+              touched.password && errors.password ? styles.border : null,
             ]}
             placeholder="Password"
             onChangeText={handleChange('password')}
@@ -117,10 +112,7 @@ export const SignInContainer = ({ onSubmit }) => {
             secureTextEntry={true}
           />
           <Pressable
-            style={({ pressed }) => [
-              styles.button,
-              { opacity: pressed ? 0.8 : 1 },
-            ]}
+            style={({ pressed }) => [styles.button, {opacity: pressed ? 0.8 : 1}]}
             onPress={handleSubmit}
           >
             <Text style={styles.text}>Submit</Text>

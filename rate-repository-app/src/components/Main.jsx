@@ -4,6 +4,7 @@ import AppBar from './AppBar';
 import { Navigate, Route, Routes} from 'react-router-native';
 import SignIn from './AppBar/SignIn';
 import SingleRepository from './RepositoryList/SingleRepository';
+import ReviewForm from './AppBar/ReviewForm';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +29,10 @@ const Main = () => {
         <Route
           path="/repositories/:id"
           element={<SingleRepository />}
+        />
+        <Route
+        path="/review"
+        element={<ReviewForm />}
         />
         <Route
           path="*"
