@@ -1,5 +1,12 @@
 import { useState } from 'react';
-import { Platform, Pressable, Text, View, TextInput, StyleSheet } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+} from 'react-native';
 import { Formik } from 'formik';
 import useCreateReview from '../../hooks/useCreateReview';
 import { useNavigate } from 'react-router-native';
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.main,
     color: '#d73a4a',
     fontSize: 14,
-    paddingLeft: 15
+    paddingLeft: 15,
   },
   font: {
     fontFamily: theme.fonts.main,
@@ -124,7 +131,7 @@ const ReviewFormContainer = ({ onSubmit, error }) => {
               <Text style={[styles.inputError]}>{errors.repositoryName}</Text>
             )}
             <TextInput
-              placeholder="Rating"
+              placeholder="Rating between 0 and 100"
               onBlur={handleBlur('rating')}
               onChangeText={handleChange('rating')}
               value={values.rating}
