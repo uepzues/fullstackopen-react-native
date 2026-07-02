@@ -8,6 +8,11 @@ const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   button: {
     borderRadius: 0,
     width: '100%',
@@ -16,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const FilterMenu = ({ selectedSort, setSelectedSort }) => {
+const SortMenu = ({ selectedSort, setSelectedSort }) => {
   const [visible, setVisible] = useState(false);
 
   const openMenu = () => setVisible(true);
@@ -45,17 +50,17 @@ const FilterMenu = ({ selectedSort, setSelectedSort }) => {
         visible={visible}
         onDismiss={closeMenu}
         anchor={
-          <Button
-            mode="contained"
-            onPress={openMenu}
-            contentStyle={{ flexDirection: 'row-reverse', height: 55 }}
-            style={styles.button}
-            textColor="white"
-            labelStyle={{ color: 'white', fontSize: 16 }}
-            icon="filter"
-          >
-            {getLabel()}
-          </Button>
+      <Button
+        mode="contained"
+        onPress={openMenu}
+        contentStyle={{ flexDirection: 'row-reverse', height: 55 }}
+            style={[styles.button, {display: 'flex'}]}
+        textColor="white"
+        labelStyle={{ color: 'white', fontSize: 16 }}
+        icon="filter"
+      >
+        {getLabel()}
+      </Button>
         }
       >
         <Menu.Item
@@ -99,10 +104,13 @@ const RepositoriesListContainer = ({
       onRefresh={refetch}
       refreshing={loading}
       ListHeaderComponent={
-        <FilterMenu
+        <>
+        
+        <SortMenu
           selectedSort={selectedSort}
           setSelectedSort={setSelectedSort}
         />
+        </>
       }
     />
   );
