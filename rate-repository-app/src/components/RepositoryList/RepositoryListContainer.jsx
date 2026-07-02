@@ -1,6 +1,6 @@
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
-import { Button, Menu } from 'react-native-paper';
+import { Button, Menu, Searchbar } from 'react-native-paper';
 import { useState } from 'react';
 import theme from '../../theme';
 
@@ -9,9 +9,7 @@ const styles = StyleSheet.create({
     height: 10,
   },
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin: 10,
   },
   button: {
     borderRadius: 0,
@@ -19,9 +17,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: theme.colors.primary,
   },
+  search: {
+    backgroundColor: 'lightgray',
+    borderTopEndRadius: 25,
+    borderBottomEndRadius: 25
+  },
 });
 
-const SortMenu = ({ selectedSort, setSelectedSort }) => {
+const FilterMenu = ({ selectedSort, setSelectedSort, search, setSearch }) => {
   const [visible, setVisible] = useState(false);
 
   const openMenu = () => setVisible(true);
@@ -46,21 +49,30 @@ const SortMenu = ({ selectedSort, setSelectedSort }) => {
 
   return (
     <View>
+      <Searchbar
+        style={[styles.container, styles.search]}
+        inputStyle={{color: 'gray'}}
+        placeholder="Search"
+        onChangeText={setSearch}
+        value={search}
+        placeholderTextColor="gray"
+        iconColor={'gray'}
+      />
       <Menu
         visible={visible}
         onDismiss={closeMenu}
         anchor={
-      <Button
-        mode="contained"
-        onPress={openMenu}
-        contentStyle={{ flexDirection: 'row-reverse', height: 55 }}
-            style={[styles.button, {display: 'flex'}]}
-        textColor="white"
-        labelStyle={{ color: 'white', fontSize: 16 }}
-        icon="filter"
-      >
-        {getLabel()}
-      </Button>
+          <Button
+            mode="contained"
+            onPress={openMenu}
+            contentStyle={{ flexDirection: 'row-reverse', height: 55 }}
+            style={[styles.button]}
+            textColor="white"
+            labelStyle={{ color: 'white', fontSize: 16 }}
+            icon="filter"
+          >
+            {getLabel()}
+          </Button>
         }
       >
         <Menu.Item
@@ -88,6 +100,8 @@ const RepositoriesListContainer = ({
   refetch,
   selectedSort,
   setSelectedSort,
+  search,
+  setSearch,
 }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -105,11 +119,12 @@ const RepositoriesListContainer = ({
       refreshing={loading}
       ListHeaderComponent={
         <>
-        
-        <SortMenu
-          selectedSort={selectedSort}
-          setSelectedSort={setSelectedSort}
-        />
+          <FilterMenu
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+            search={search}
+            setSearch={setSearch}
+          />
         </>
       }
     />

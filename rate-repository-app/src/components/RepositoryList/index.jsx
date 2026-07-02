@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import useRepositories from '../../hooks/useRepositories';
 import RepositoriesListContainer from './RepositoryListContainer';
+import { useDebounce } from 'use-debounce';
 
 const styles = StyleSheet.create({
   center: {
@@ -13,6 +14,9 @@ const styles = StyleSheet.create({
 
 const RepositoryList = () => {
   const [selectedSort, setSelectedSort] = useState('LATEST');
+  const [search, setSearch] = useState('');
+
+  const [debouncedSearch] = useDebounce(search, 900);
 
   const getVariables = (sort) => {
     switch (sort) {
@@ -26,9 +30,10 @@ const RepositoryList = () => {
     }
   };
 
-  const { repositories, loading, error, refetch } = useRepositories(
-    getVariables(selectedSort)
-  );
+  const { repositories, loading, error, refetch } = useRepositories({
+    ...getVariables(selectedSort),
+    searchKeyword: debouncedSearch,
+  });
 
   if (loading)
     return (
@@ -50,6 +55,8 @@ const RepositoryList = () => {
       refetch={refetch}
       selectedSort={selectedSort}
       setSelectedSort={setSelectedSort}
+      search={search}
+      setSearch={setSearch}
     />
   );
 };
