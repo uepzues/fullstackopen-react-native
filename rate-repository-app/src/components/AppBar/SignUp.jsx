@@ -1,10 +1,17 @@
-import { Pressable, StyleSheet, TextInput, View, Platform } from 'react-native';
-import Text from '../Text';
+import {
+  Text,
+  Pressable,
+  View,
+  TextInput,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import { Formik } from 'formik';
-import * as yup from 'yup';
-import theme from '../../theme';
-import useSignIn from '../../hooks/useSignin';
 import { useNavigate } from 'react-router-native';
+import useSignUp from '../../hooks/useSignUp';
+import useSignIn from '../../hooks/useSignin';
+import theme from '../../theme';
+import * as yup from 'yup';
 import { useState } from 'react';
 
 const styles = StyleSheet.create({
@@ -43,6 +50,7 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.main,
     color: '#d73a4a',
     fontSize: 14,
+    paddingLeft: 15,
   },
   font: {
     fontFamily: theme.fonts.main,
@@ -59,7 +67,7 @@ const validationSchema = yup.object().shape({
   username: yup
     .string()
     .min(4, 'Username must be at least 4 characters')
-    .max(30, 'Username too long!')
+    .max(30, 'Username too long')
     .required('Username is required'),
   password: yup
     .string()
@@ -69,12 +77,16 @@ const validationSchema = yup.object().shape({
     //     'Password must contain at least one uppercase, one lowercase, one number, and one special character',
     // })
     .required('Password is required'),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref('password')], 'Passwords must match')
+    .required('Password confirmation is required'),
 });
 
-export const SignInContainer = ({ onSubmit, error }) => {
+export const SignUpContainer = ({ onSubmit, error }) => {
   return (
     <Formik
-      initialValues={{ username: '', password: '' }}
+      initialValues={{ username: '', password: '', passwordConfirmation: '' }}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
@@ -87,7 +99,7 @@ export const SignInContainer = ({ onSubmit, error }) => {
         values,
       }) => (
         <View style={styles.container}>
-          {error && <Text style={[styles.inputError]}>{error.message}</Text>}
+          {error && <Text style={styles.inputError}>{error.message}</Text>}
           {touched.username && errors.username && (
             <Text style={[styles.inputError]}>{errors.username}</Text>
           )}
@@ -117,6 +129,25 @@ export const SignInContainer = ({ onSubmit, error }) => {
             onBlur={handleBlur('password')}
             secureTextEntry={true}
           />
+          {touched.passwordConfirmation && errors.passwordConfirmation && (
+            <Text style={[styles.inputError]}>
+              {errors.passwordConfirmation}
+            </Text>
+          )}
+          <TextInput
+            style={[
+              styles.input,
+              styles.font,
+              touched.passwordConfirmation && errors.passwordConfirmation
+                ? styles.border
+                : null,
+            ]}
+            placeholder="Password Confirmation"
+            onChangeText={handleChange('passwordConfirmation')}
+            value={values.passwordConfirmation}
+            onBlur={handleBlur('passwordConfirmation')}
+            secureTextEntry={true}
+          />
           <Pressable
             style={({ pressed }) => [
               styles.button,
@@ -124,7 +155,7 @@ export const SignInContainer = ({ onSubmit, error }) => {
             ]}
             onPress={handleSubmit}
           >
-            <Text style={styles.text}>Sign In</Text>
+            <Text style={styles.text}>Sign Up</Text>
           </Pressable>
         </View>
       )}
@@ -132,16 +163,17 @@ export const SignInContainer = ({ onSubmit, error }) => {
   );
 };
 
-const SignIn = () => {
+const SignUp = () => {
   const [error, setError] = useState('');
+  const [signUp] = useSignUp();
   const [signIn] = useSignIn();
-
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
     const { username, password } = values;
 
     try {
+      await signUp({ username, password });
       await signIn({ username, password });
       navigate('/');
     } catch (error) {
@@ -151,11 +183,11 @@ const SignIn = () => {
   };
 
   return (
-    <SignInContainer
+    <SignUpContainer
       onSubmit={onSubmit}
       error={error}
     />
   );
 };
 
-export default SignIn;
+export default SignUp;
