@@ -45,6 +45,10 @@ const AppBar = () => {
               label="Create a review"
             />
             <AppBarTab
+              label="My Reviews"
+              to={'/user-reviews'}
+            />
+            <AppBarTab
               label="Sign out"
               onPress={signOut}
             />

@@ -87,7 +87,7 @@ export const SignInContainer = ({ onSubmit, error }) => {
         values,
       }) => (
         <View style={styles.container}>
-          {error && <Text style={[styles.inputError]}>{error.message}</Text>}
+          {!!error && <Text style={[styles.inputError]}>{error.message}</Text>}
           {touched.username && errors.username && (
             <Text style={[styles.inputError]}>{errors.username}</Text>
           )}

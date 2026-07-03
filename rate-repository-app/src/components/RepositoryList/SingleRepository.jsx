@@ -7,6 +7,8 @@ import * as Linking from 'expo-linking';
 import { useParams } from 'react-router-native';
 import useReview from '../../hooks/useReview';
 import RepositoryReview from './RepositoryReview';
+import ItemSeparator from '../ItemSeparator';
+import ItemCount from '../ItemCount';
 
 const styles = StyleSheet.create({
   text: {
@@ -63,25 +65,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const ItemCount = ({ label, count }) => {
-  const countInK = (item) => {
-    let count = '0';
-
-    if (item && item >= 1000) {
-      count = (item / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
-      return count;
-    }
-    return item;
-  };
-
-  return (
-    <View style={{ alignItems: 'center' }}>
-      <ItemText style={{ fontWeight: 'bold' }}>{countInK(count)}</ItemText>
-      <ItemText>{label}</ItemText>
-    </View>
-  );
-};
-
 const RepositoryInfo = ({ repository }) => {
   const handleOnPress = () => {
     if (repository?.url) {
@@ -90,7 +73,14 @@ const RepositoryInfo = ({ repository }) => {
   };
 
   return (
-    <View style={[styles.container, styles.paddingX, styles.paddingY, {marginBottom: 10}]}>
+    <View
+      style={[
+        styles.container,
+        styles.paddingX,
+        styles.paddingY,
+        { marginBottom: 10 },
+      ]}
+    >
       <View style={[{ marginBottom: 10 }]}>
         <View style={styles.displayRow}>
           <View>
@@ -139,7 +129,7 @@ const RepositoryInfo = ({ repository }) => {
             { opacity: pressed ? 0.8 : 1 },
           ]}
         >
-          <ItemText style={[styles.text, styles.textColor, ]}>
+          <ItemText style={[styles.text, styles.textColor]}>
             Open in Github
           </ItemText>
         </Pressable>
@@ -148,15 +138,21 @@ const RepositoryInfo = ({ repository }) => {
   );
 };
 
-const ItemSeparator = () => <View style={[styles.separator, {}]} />;
-
 const SingleRepository = () => {
   const { id } = useParams();
-  const { data, loading: repoLoading, error: repoError } = useQuery(REPOSITORY, {
+  const {
+    data,
+    loading: repoLoading,
+    error: repoError,
+  } = useQuery(REPOSITORY, {
     fetchPolicy: 'cache-and-network',
     variables: { id },
   });
-  const { reviews, loading: reviewsLoading, error: reviewsError } = useReview(id);
+  const {
+    reviews,
+    loading: reviewsLoading,
+    error: reviewsError,
+  } = useReview(id);
 
   if (repoLoading || reviewsLoading) return <ItemText>Loading...</ItemText>;
   if (repoError) return <ItemText>{repoError.message}</ItemText>;
@@ -165,9 +161,7 @@ const SingleRepository = () => {
   const repository = data?.repository;
   if (!repository) return null;
 
-  const reviewNodes = reviews
-    ? reviews.edges.map((edge) => edge.node)
-    : [];
+  const reviewNodes = reviews ? reviews.edges.map((edge) => edge.node) : [];
 
   return (
     <FlatList

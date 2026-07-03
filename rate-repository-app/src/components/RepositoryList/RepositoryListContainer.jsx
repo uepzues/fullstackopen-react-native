@@ -3,6 +3,7 @@ import RepositoryItem from './RepositoryItem';
 import { Button, Menu, Searchbar } from 'react-native-paper';
 import { useState } from 'react';
 import theme from '../../theme';
+import ItemSeparator from '../ItemSeparator';
 
 const styles = StyleSheet.create({
   separator: {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   search: {
     backgroundColor: 'lightgray',
     borderTopEndRadius: 25,
-    borderBottomEndRadius: 25
+    borderBottomEndRadius: 25,
   },
 });
 
@@ -51,7 +52,7 @@ const FilterMenu = ({ selectedSort, setSelectedSort, search, setSearch }) => {
     <View>
       <Searchbar
         style={[styles.container, styles.search]}
-        inputStyle={{color: 'gray'}}
+        inputStyle={{ color: 'gray' }}
         placeholder="Search"
         onChangeText={setSearch}
         value={search}
@@ -92,8 +93,6 @@ const FilterMenu = ({ selectedSort, setSelectedSort, search, setSearch }) => {
   );
 };
 
-const ItemSeparator = () => <View style={styles.separator} />;
-
 const RepositoriesListContainer = ({
   repositories,
   loading,
@@ -107,12 +106,10 @@ const RepositoriesListContainer = ({
     ? repositories.edges.map((edge) => edge.node)
     : [];
 
-  const renderItem = ({ item }) => <RepositoryItem repo={item} />;
-
   return (
     <FlatList
       data={repositoryNodes}
-      renderItem={renderItem}
+      renderItem={({ item }) => <RepositoryItem repo={item} />}
       keyExtractor={(repo) => repo.id}
       ItemSeparatorComponent={ItemSeparator}
       onRefresh={refetch}

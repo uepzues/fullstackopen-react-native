@@ -2,6 +2,7 @@ import { View, StyleSheet, Image } from 'react-native';
 import theme from '../../theme';
 import ItemText from '../Text';
 import { Link } from 'react-router-native';
+import ItemCount from '../ItemCount';
 
 const styles = StyleSheet.create({
   text: {
@@ -109,25 +110,6 @@ const RepositoryItem = ({ style, repo }) => {
         </View>
       </View>
     </Link>
-  );
-};
-
-const ItemCount = ({ label, count }) => {
-  const countInK = (item) => {
-    let count = '0';
-
-    if (item && item >= 1000) {
-      count = (item / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
-      return count;
-    }
-    return item;
-  };
-
-  return (
-    <View style={{ alignItems: 'center' }}>
-      <ItemText fontWeight="bold">{countInK(count)}</ItemText>
-      <ItemText>{label}</ItemText>
-    </View>
   );
 };
 
