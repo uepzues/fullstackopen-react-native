@@ -115,14 +115,12 @@ const RepositoriesListContainer = ({
       onRefresh={refetch}
       refreshing={loading}
       ListHeaderComponent={
-        <>
-          <FilterMenu
-            selectedSort={selectedSort}
-            setSelectedSort={setSelectedSort}
-            search={search}
-            setSearch={setSearch}
-          />
-        </>
+        <FilterMenu
+          selectedSort={selectedSort}
+          setSelectedSort={setSelectedSort}
+          search={search}
+          setSearch={setSearch}
+        />
       }
     />
   );

@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: theme.padding.PaddingX,
     alignSelf: 'flex-start',
-    
   },
   ratingFont: {
     fontWeight: '600',
@@ -43,10 +42,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 40,
   },
+
 });
 
 const RepositoryReview = ({ review }) => {
-
   const formatDate = (date) => {
     return format(new Date(date), 'dd MMM yyyy');
   };
@@ -54,12 +53,19 @@ const RepositoryReview = ({ review }) => {
   return (
     <View style={[styles.displayRow, styles.paddingX, styles.paddingY, {}]}>
       <View style={styles.rating}>
-        <Text style={[styles.ratingFont, {fontSize: review?.rating === 100 ? 14 : 20}]}>{review?.rating}</Text>
+        <Text
+          style={[
+            styles.ratingFont,
+            { fontSize: review?.rating === 100 ? 14 : 20 },
+          ]}
+        >
+          {review?.rating}
+        </Text>
       </View>
-      <View style={[styles.paddingX, { width: '100%', paddingVertical: 10, }]}>
+      <View style={[styles.paddingX, { flex: 1, paddingVertical: 10 }]}>
         <Text style={styles.nameFont}>{review?.user.username}</Text>
         <Text>{formatDate(review?.createdAt)}</Text>
-        <Text style={[styles.textFlow, {paddingTop: 5}]}>{review?.text}</Text>
+        <Text style={[styles.textFlow, { paddingTop: 5 }]}>{review?.text}</Text>
       </View>
     </View>
   );

@@ -1,25 +1,29 @@
-import { StyleSheet, FlatList, View, Text } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Text,
+  Pressable,
+  Alert,
+  Platform,
+} from 'react-native';
 import theme from '../../theme';
 import { format } from 'date-fns';
-import { useQuery } from '@apollo/client/react';
+import { useQuery, useMutation } from '@apollo/client/react';
 import { GET_USER } from '../../graphql/queries';
+import { DELETE_REVIEW } from '../../graphql/mutations';
 import ItemSeparator from '../ItemSeparator';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
-  displayRow: {
-    display: theme.rowDisplay.flexDisplay,
-    flexDirection: theme.rowDisplay.flexRow,
-    marginBottom: 10,
+  cardContainer: {
     backgroundColor: 'white',
-  },
-  paddingX: {
-    paddingHorizontal: theme.padding.PaddingX,
-  },
-  paddingY: {
     paddingVertical: theme.padding.PaddingY,
+    marginBottom: 10,
   },
-  container: {
-    backgroundColor: 'white',
+  reviewDetailsRow: {
+    flexDirection: 'row',
+    paddingHorizontal: theme.padding.PaddingX,
   },
   rating: {
     width: 50,
@@ -45,48 +49,148 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 40,
   },
+  goToButton: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    marginVertical: 10,
+    marginRight: 10,
+  },
+  deleteButton: {
+    flex: 1,
+    backgroundColor: '#c43333ff',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+    marginVertical: 10,
+  },
+  buttonFont: {
+    color: 'white',
+    fontWeight: '600',
+  },
+  displayButton: {
+    flexDirection: 'row',
+    paddingHorizontal: theme.padding.PaddingX,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
-const ReviewInfo = ({ review }) => {
+const ReviewInfo = ({ review, refetch }) => {
+  const navigate = useNavigate();
+  const [deleteReview] = useMutation(DELETE_REVIEW);
+
   const formatDate = (date) => {
     return format(new Date(date), 'dd MMM yyyy');
   };
 
+  const handleOnPressLink = () => {
+    navigate(`/repositories/${review.node.repository.id}`);
+  };
+
+  const handleOnPressDelete = () => {
+    console.log('BUTTON PRESSED');
+    const performDelete = async () => {
+      try {
+        await deleteReview({ variables: { id: review.node.id } });
+        refetch();
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (Platform.OS === 'web') {
+      const confirmDelete = window.confirm(
+        `Delete review\n\nAre you sure you want to delete this review?`,
+      );
+      if (confirmDelete) {
+        performDelete();
+      }
+    } else {
+      Alert.alert(
+        'Delete review',
+        'Are you sure you want to delete this review?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Delete',
+            onPress: performDelete,
+          },
+        ],
+        { cancelable: true },
+      );
+    }
+  };
+
   return (
-    <View style={[styles.displayRow, styles.paddingX, styles.paddingY, {}]}>
-      <View style={styles.rating}>
-        <Text
-          style={[
-            styles.ratingFont,
-            { fontSize: review?.node?.rating === 100 ? 14 : 20 },
+    <View style={styles.cardContainer}>
+      <View style={styles.reviewDetailsRow}>
+        <View style={styles.rating}>
+          <Text
+            style={[
+              styles.ratingFont,
+              { fontSize: review?.node?.rating === 100 ? 14 : 20 },
+            ]}
+          >
+            {review?.node?.rating}
+          </Text>
+        </View>
+        <View style={{ flex: 1, paddingLeft: 10 }}>
+          <Text style={styles.nameFont}>
+            {review?.node.repository?.fullName}
+          </Text>
+          <Text>{formatDate(review?.node?.createdAt)}</Text>
+          <Text style={[styles.textFlow, { paddingTop: 5 }]}>
+            {review?.node?.text}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.displayButton}>
+        <Pressable
+          onPress={handleOnPressLink}
+          style={({ pressed }) => [
+            styles.goToButton,
+            { opacity: pressed ? 0.8 : 1 },
           ]}
         >
-          {review?.node?.rating}
-        </Text>
-      </View>
-      <View style={[styles.paddingX, { width: '100%', paddingVertical: 10 }]}>
-        <Text style={styles.nameFont}>{review?.node.repository?.fullName}</Text>
-        <Text>{formatDate(review?.node?.createdAt)}</Text>
-        <Text style={[styles.textFlow, { paddingTop: 5 }]}>
-          {review?.node?.text}
-        </Text>
+          <Text style={styles.buttonFont}>View Repository</Text>
+        </Pressable>
+        <Pressable
+          onPress={handleOnPressDelete}
+          style={({ pressed }) => [
+            styles.deleteButton,
+            { opacity: pressed ? 0.8 : 1 },
+          ]}
+        >
+          <Text style={styles.buttonFont}>Delete Review</Text>
+        </Pressable>
       </View>
     </View>
   );
 };
 
 const UserReviews = () => {
-  const { data, loading, error } = useQuery(GET_USER, {
+  const { data, loading, error, refetch } = useQuery(GET_USER, {
     variables: {
       includeReviews: true,
     },
   });
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Text style={styles.center}>Loading...</Text>;
   }
   if (error) {
-    return <Text>{error.message}</Text>;
+    return <Text style={styles.center}>{error.message}</Text>;
   }
 
   const nodes = data?.me?.reviews?.edges;
@@ -94,7 +198,12 @@ const UserReviews = () => {
     <>
       <FlatList
         data={nodes}
-        renderItem={({ item }) => <ReviewInfo review={item} />}
+        renderItem={({ item }) => (
+          <ReviewInfo
+            review={item}
+            refetch={refetch}
+          />
+        )}
         ItemSeparatorComponent={ItemSeparator}
       />
     </>
