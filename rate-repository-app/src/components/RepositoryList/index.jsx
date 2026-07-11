@@ -33,9 +33,8 @@ const RepositoryList = () => {
   const { data, loading, error, refetch, fetchMore } = useRepositories({
     ...getVariables(selectedSort),
     searchKeyword: debouncedSearch,
-    first: 1,
+    first: 5,
   });
-
 
   const repositories = data ? data.repositories : undefined;
 
@@ -61,9 +60,10 @@ const RepositoryList = () => {
       setSelectedSort={setSelectedSort}
       search={search}
       setSearch={setSearch}
-      onEndReached={()=>{
-        console.warn('REPOS END REACHED')
-        fetchMore()}}
+      onEndReached={() => {
+        // console.warn('REPOS END REACHED')
+        fetchMore();
+      }}
     />
   );
 };

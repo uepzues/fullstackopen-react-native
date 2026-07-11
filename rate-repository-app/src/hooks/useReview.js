@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client/react";
 import { GET_REVIEWS } from "../graphql/queries";
 
-const useReview = (id, variables = { first: 3 }) => {
+const useReview = (id, variables = { first: 5 }) => {
     const queryVariables = { repositoryId: id, ...variables };
 
     const { data, loading, error, fetchMore } = useQuery(GET_REVIEWS, {

@@ -173,7 +173,7 @@ const SingleRepository = () => {
       ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
       ItemSeparatorComponent={ItemSeparator}
       onEndReached={() => {
-        console.warn('END REACHED');
+        // console.warn('END REACHED');
         fetchMore();
       }}
       onEndReachedThreshold={0.5}
