@@ -152,9 +152,11 @@ const SingleRepository = () => {
     reviews,
     loading: reviewsLoading,
     error: reviewsError,
+    fetchMore,
   } = useReview(id);
 
-  if (repoLoading || reviewsLoading) return <ItemText>Loading...</ItemText>;
+  if (repoLoading || (reviewsLoading && !reviews))
+    return <ItemText>Loading...</ItemText>;
   if (repoError) return <ItemText>{repoError.message}</ItemText>;
   if (reviewsError) return <ItemText>{reviewsError.message}</ItemText>;
 
@@ -170,6 +172,11 @@ const SingleRepository = () => {
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={() => {
+        console.warn('END REACHED');
+        fetchMore();
+      }}
+      onEndReachedThreshold={0.5}
     />
   );
 };

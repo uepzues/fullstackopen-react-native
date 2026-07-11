@@ -101,10 +101,13 @@ const RepositoriesListContainer = ({
   setSelectedSort,
   search,
   setSearch,
+  onEndReached,
 }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : [];
+
+  // console.log('REPOSITORYNODES', repositoryNodes)
 
   return (
     <FlatList
@@ -114,6 +117,8 @@ const RepositoriesListContainer = ({
       ItemSeparatorComponent={ItemSeparator}
       onRefresh={refetch}
       refreshing={loading}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={
         <FilterMenu
           selectedSort={selectedSort}
