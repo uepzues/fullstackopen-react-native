@@ -6,7 +6,7 @@ A mobile application for rating GitHub repositories. Users can browse GitHub-sty
 
 You can try the app on your phone by scanning the following QR code with Expo Go:
 
-![alt text](image.png)
+![QRCode](image.png)
 
 
 
